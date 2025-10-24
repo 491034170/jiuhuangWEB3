@@ -1,5 +1,5 @@
 name = "jiuhuangweb3"
-main = "src/index.js"
+main = "functions/index.js"
 compatibility_date = "2024-10-25"
 
 [[d1_databases]]
