@@ -3,54 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="韭黄溯源系统首页，包含登录引导与区块链食品安全学习任务" />
+  <meta name="description" content="韭黄溯源系统首页，包含登录引导、区块链食品安全学习任务与实时资讯" />
   <title>首页 - 韭黄溯源系统</title>
   <style>
-    :root{
-      --bg1:#0f111a; --bg2:#1b2035; --accent:#5b9cff; --accent2:#22d3ee;
-      --card:#161a28; --card2:#1d253a; --text:#e5e7eb; --muted:#9ca3af;
-      --radius:16px;
+    :root {
+      --bg1: #0f111a;
+      --bg2: #1b2035;
+      --accent: #5b9cff;
+      --accent2: #22d3ee;
+      --card: #161a28;
+      --card2: #1d253a;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --radius: 16px;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-      min-height:100vh; background:linear-gradient(135deg,var(--bg1),var(--bg2));
-      color:var(--text); display:flex; justify-content:center; padding:40px 16px;
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
     }
-    .wrap{width:min(960px,100%); display:flex; flex-direction:column; gap:24px;}
-    .card{
-      background:var(--card); border-radius:var(--radius);
-      box-shadow:0 10px 40px rgba(0,0,0,.35); padding:28px;
+
+    .wrap { width: min(960px, 100%); display: flex; flex-direction: column; gap: 24px; }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
+      padding: 28px;
     }
-    h1{margin:0 0 12px; font-size:30px}
-    h2{margin:18px 0 8px; font-size:22px}
-    p{margin:6px 0 12px; color:var(--muted)}
-    .actions{display:flex; gap:12px; flex-wrap:wrap}
-    .btn{display:inline-flex; align-items:center; justify-content:center; gap:6px;
-      padding:12px 18px; border-radius:12px; font-weight:700; text-decoration:none; color:#fff;
-      background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 6px 18px rgba(45,133,255,.25);
-      border:none; cursor:pointer; transition:all .2s ease;
+
+    h1 { margin: 0 0 12px; font-size: 30px; }
+    h2 { margin: 18px 0 8px; font-size: 22px; }
+    p { margin: 6px 0 12px; color: var(--muted); }
+
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 6px 18px rgba(45, 133, 255, .25);
+      border: none;
+      cursor: pointer;
+      transition: all .2s ease;
     }
-    .btn.secondary{background:linear-gradient(135deg,#22d3ee,#10b981)}
-    .btn.warn{background:linear-gradient(135deg,#f87171,#ef4444)}
-    .btn:hover{opacity:.92; transform:translateY(-1px)}
-    .feature-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-top:16px}
-    .feature-grid .card{padding:18px; background:var(--card2)}
-    .muted-box{background:rgba(15,23,42,.65); border-radius:14px; padding:16px; margin-top:14px}
-    .dashboard{display:none; flex-direction:column; gap:24px}
-    .dashboard.active{display:flex}
-    .question-list{display:flex; flex-direction:column; gap:18px; margin-top:12px}
-    .question-card{background:var(--card2); border-radius:14px; padding:20px; border:1px solid rgba(96,165,250,.2)}
-    .question-card h3{margin:0 0 10px; font-size:18px}
-    .question-card textarea{
-      width:100%; min-height:120px; border-radius:12px; padding:12px;
-      background:#0c1322; color:var(--text); border:1px solid rgba(148,163,184,.35);
-      resize:vertical; font-size:15px; line-height:1.5;
+
+    .btn.secondary { background: linear-gradient(135deg, #22d3ee, #10b981); }
+    .btn.highlight { background: linear-gradient(135deg, #f6ad55, #f97316); }
+    .btn.warn { background: linear-gradient(135deg, #f87171, #ef4444); }
+    .btn:hover { opacity: .92; transform: translateY(-1px); }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
     }
-    .question-card textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 4px rgba(79,156,255,.25)}
-    .question-meta{font-size:13px; color:var(--muted); margin-bottom:12px; line-height:1.6}
-    .status{text-align:right; color:#a5f3fc; font-size:13px; min-height:18px}
-    @media (max-width: 760px){ body{padding:24px 12px;} }
+
+    .feature-grid .card { padding: 18px; background: var(--card2); }
+
+    .muted-box { background: rgba(15, 23, 42, .65); border-radius: 14px; padding: 16px; margin-top: 14px; }
+
+    .dashboard { display: none; flex-direction: column; gap: 24px; }
+    .dashboard.active { display: flex; }
+
+    .question-list { display: flex; flex-direction: column; gap: 18px; margin-top: 12px; }
+    .question-card { background: var(--card2); border-radius: 14px; padding: 20px; border: 1px solid rgba(96, 165, 250, .2); }
+    .question-card h3 { margin: 0 0 10px; font-size: 18px; }
+    .question-card textarea {
+      width: 100%;
+      min-height: 120px;
+      border-radius: 12px;
+      padding: 12px;
+      background: #0c1322;
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, .35);
+      resize: vertical;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .question-card textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(79, 156, 255, .25);
+    }
+
+    .question-meta { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.6; }
+    .status { text-align: right; color: #a5f3fc; font-size: 13px; min-height: 18px; }
+
+    .news-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .news-item a { color: #bfdbfe; text-decoration: none; font-weight: 600; }
+    .news-item a:hover { text-decoration: underline; }
+    .news-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    @media (max-width: 760px) {
+      body { padding: 24px 12px; }
+      .actions { flex-direction: column; align-items: stretch; }
+    }
   </style>
 </head>
 <body>
@@ -61,6 +126,7 @@
       <div class="actions">
         <a class="btn" href="login.html">立即登录</a>
         <a class="btn secondary" href="register.html">注册新账号</a>
+        <a class="btn highlight" href="https://jiuhuang.pages.dev/" target="_blank" rel="noopener">查看宣传站</a>
       </div>
       <section class="muted-box">
         <h2 style="margin-top:0;font-size:20px;color:#bfdbfe">为什么要学习区块链 + 食品安全？</h2>
@@ -87,7 +153,7 @@
 
       <section class="card">
         <h2 style="margin-top:0;">区块链 + 食品安全：思考题</h2>
-        <p style="margin-bottom:0;">每个问题都支持离线保存（存储在浏览器 LocalStorage）。你可以在课堂分享你的答案。</p>
+        <p style="margin-bottom:0;">每个问题都支持离线保存（存储在浏览器 LocalStorage），课堂分享时可直接调用你的答案。</p>
         <div id="question-list" class="question-list"></div>
         <div class="status" id="save-status"></div>
       </section>
@@ -95,12 +161,21 @@
       <section class="card">
         <h2 style="margin-top:0;">参考要点</h2>
         <ul style="margin:6px 0 0 18px; color:var(--muted); line-height:1.7;">
-          <li>政策背景：农业农村部《农产品质量安全追溯平台》、市场监管总局“阳光餐饮”等项目。</li>
-          <li>落地案例：蚂蚁链、腾讯安心平台、苏州阳澄湖大闸蟹、盒马鲜生商品溯源等。</li>
-          <li>技术挑战：数据上链真实性、隐私保护、链下协同、中小企业成本、跨部门治理。</li>
-          <li>合规要求：数据安全法、个人信息保护法、冷链食品追溯管理办法等法规约束。</li>
+          <li>政策背景：农产品质量安全追溯平台、“阳光餐饮”等国家项目。</li>
+          <li>落地案例：蚂蚁链、腾讯安心平台、阳澄湖大闸蟹、盒马鲜生等。</li>
+          <li>技术挑战：数据真实性、隐私保护、中小企业成本、标准互通。</li>
+          <li>合规要求：数据安全法、个保法、冷链食品追溯管理办法等法规。</li>
         </ul>
       </section>
+    </section>
+
+    <section class="card" id="news-card">
+      <h2 style="margin-top:0;">区块链热点新闻（中国）</h2>
+      <p>以下资讯由开源 RSS 聚合，缓存 30 分钟，覆盖巴比特、金色财经、链闻等媒体。</p>
+      <ul id="news-list" class="news-list">
+        <li id="news-placeholder" class="news-item">正在加载最新动态...</li>
+      </ul>
+      <div id="news-status" class="news-meta"></div>
     </section>
   </main>
 
@@ -112,30 +187,32 @@
     const logoutBtn = document.getElementById('logout-btn');
     const userNameEl = document.getElementById('user-name');
     const userEmailEl = document.getElementById('user-email');
+    const newsList = document.getElementById('news-list');
+    const newsStatus = document.getElementById('news-status');
 
     const questions = [
       {
         title: '1. 如何利用区块链提升农产品追溯透明度？',
-        prompt: '描述从产地到餐桌的关键数据点，哪些应该上链？这些数据在突发食品安全事件中如何帮助快速锁定问题批次？',
-        hint: '建议涉及农场种植档案、加工检验记录、冷链仓储、运输交接、终端扫码验真等环节。',
+        prompt: '描述从产地到餐桌的关键数据点，哪些应该上链？突发食品安全事件中如何帮助快速锁定问题批次？',
+        hint: '包含种植档案、检验记录、冷链仓储、运输交接、终端扫码验真等环节。',
       },
       {
-        title: '2. 在中国市场监管体系中，区块链与哪些部门/系统协同？',
+        title: '2. 在中国监管体系中，区块链如何与多部门协同？',
         prompt: '举例说明农业农村部、市场监管总局、海关、地方应急管理等角色如何共享链上数据，实现联合监管。',
-        hint: '可结合“智慧监管”、跨部门数据共享、AI 预警等角度展开。',
+        hint: '可结合智慧监管、跨部门数据共享、AI 预警等实践。',
       },
       {
-        title: '3. 落地挑战与解决策略是什么？',
+        title: '3. 落地面临哪些挑战？如何解决？',
         prompt: '分析企业上链成本、数据真实性、隐私保护、标准化等阻碍，并提出可行的技术或治理方案。',
-        hint: '可参考多中心节点、可信上传、联盟链治理、隐私计算、财政补贴等做法。',
+        hint: '考虑联盟链治理、可信上传、隐私计算、财政补贴等应对措施。',
       },
     ]
 
-    function storageKey(username){
+    function storageKey(username) {
       return `jiuhuangweb3-answers-${username.toLowerCase()}`
     }
 
-    function renderQuestions(answers){
+    function renderQuestions(answers) {
       questionList.innerHTML = ''
       questions.forEach((q, index) => {
         const card = document.createElement('article')
@@ -147,7 +224,7 @@
         `
         const textarea = document.createElement('textarea')
         textarea.name = `answer-${index}`
-        textarea.placeholder = '在这里写下你的思考...' 
+        textarea.placeholder = '在这里写下你的思考...'
         textarea.value = answers[index] || ''
         textarea.dataset.index = String(index)
         card.appendChild(textarea)
@@ -155,12 +232,12 @@
       })
     }
 
-    function attachAutosave(username){
+    function attachAutosave(username) {
       const key = storageKey(username)
       let timer = 0
       const updateStatus = text => {
         statusEl.textContent = text
-        if (text){
+        if (text) {
           setTimeout(() => { if (statusEl.textContent === text) statusEl.textContent = '' }, 2000)
         }
       }
@@ -173,20 +250,21 @@
           updateStatus('草稿已保存到浏览器')
         }, 400)
       })
-      logoutBtn.addEventListener('click', async () => {
-        await fetch('/logout', { method: 'POST', credentials: 'include' })
-        window.location.reload()
-      })
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          await fetch('/logout', { method: 'POST', credentials: 'include' })
+          window.location.reload()
+        })
+      }
     }
 
-    async function init(){
+    async function initDashboard() {
       try {
         const res = await fetch('/session', { credentials: 'include' })
-        if (!res.ok){
-          throw new Error('not logged in')
-        }
+        if (!res.ok) throw new Error('未登录')
         const data = await res.json()
-        if (!data.ok || !data.user) throw new Error('no user')
+        if (!data.ok || !data.user) throw new Error('无用户')
+
         const user = data.user
         userNameEl.textContent = user.username
         userEmailEl.textContent = user.email
@@ -205,7 +283,35 @@
       }
     }
 
-    init()
+    async function loadNews() {
+      try {
+        const res = await fetch('/news')
+        if (!res.ok) throw new Error(res.statusText || '加载失败')
+        const data = await res.json()
+        if (!data.ok || !Array.isArray(data.items)) throw new Error('数据格式错误')
+
+        newsList.innerHTML = ''
+        data.items.slice(0, 9).forEach(item => {
+          const li = document.createElement('li')
+          li.className = 'news-item'
+          li.innerHTML = `
+            <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+            <div class="news-meta">${new Date(item.published).toLocaleString('zh-CN')} · ${item.source}</div>
+          `
+          newsList.appendChild(li)
+        })
+        if (!data.items.length) {
+          newsList.innerHTML = '<li class="news-item">暂时没有抓取到最新资讯。</li>'
+        }
+        newsStatus.textContent = '数据更新频率：约每 30 分钟刷新一次。'
+      } catch (err) {
+        newsList.innerHTML = '<li class="news-item">暂时无法获取新闻，请稍后重试。</li>'
+        newsStatus.textContent = String(err)
+      }
+    }
+
+    initDashboard()
+    loadNews()
   </script>
 </body>
 </html>
