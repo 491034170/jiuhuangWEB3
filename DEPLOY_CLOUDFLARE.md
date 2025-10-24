@@ -68,6 +68,7 @@ Cloudflare Pages + Functions + D1 部署指南
   - 业务化运营需完成域名备案（ICP）等合规事项
 
 故障排查
-- 访问 405：通常为以 GET 打到 /register（函数只接管 POST），请访问 /register.html 页面；表单提交才会走 POST。
+- 访问 405：旧版本通常因 GET 打到 /register。现已在 Functions 中将 GET /register 与 GET /login 重定向到对应的 .html，仍然出现 405 请检查是否缓存或部署未更新。
 - 连接被拒：Pages 开发服务未运行或端口不对；本地请用 wrangler pages dev。
 - 数据表不存在：确认已对目标 D1 执行 migrations/0001_init.sql（--remote）。
+- Error 1101（Worker threw exception）：一般为运行时抛错。常见原因：未绑定 D1（缺少名为 DB 的 binding）、SQL 语法/迁移未执行、路径命中 Functions 但代码异常。可在 Workers & Pages → Logs 查看详细堆栈。
