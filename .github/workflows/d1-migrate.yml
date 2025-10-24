@@ -1,18 +1,13 @@
 name: D1 Migrations
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
   push:
     branches: [ main ]
 
 jobs:
   migrate:
     runs-on: ubuntu-latest
-
-    env:
-      CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      D1_DB: ${{ secrets.D1_DB }}  # 这里用你刚加的 Secret（数据库 UUID 或 名称）
 
     steps:
       - uses: actions/checkout@v4
@@ -27,21 +22,13 @@ jobs:
       - name: Show Wrangler version
         run: wrangler --version
 
-      - name: Sanity check secrets
-        shell: bash
-        run: |
-          test -n "$CF_API_TOKEN" || (echo "❌ Missing CLOUDFLARE_API_TOKEN" && exit 1)
-          test -n "$CF_ACCOUNT_ID" || (echo "❌ Missing CLOUDFLARE_ACCOUNT_ID" && exit 1)
-          test -n "$D1_DB" || (echo "❌ Missing D1_DB (UUID or name)" && exit 1)
-
-      - name: List D1 databases (for sanity)
-        shell: bash
-        run: |
-          wrangler d1 list --account-id "$CF_ACCOUNT_ID"
-
+      # 直接用「数据库名」执行迁移（先不走变量，避免空值）
       - name: Apply D1 migrations (remote)
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         shell: bash
         run: |
-          set -euxo pipefail
-          echo "➡️ Applying migrations to: $D1_DB"
-          wrangler d1 migrations apply "$D1_DB" --remote --account-id "$CF_ACCOUNT_ID"
+          set -euo pipefail
+          # 把 jiuhuangweb3 换成你在 Cloudflare 控制台看到的 D1 数据库名
+          wrangler d1 migrations apply "jiuhuangweb3" --remote --account-id "$CF_ACCOUNT_ID"
