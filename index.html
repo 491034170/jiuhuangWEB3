@@ -3,71 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="韭黄溯源系统简易首页，进入登录或注册页面。" />
+  <meta name="description" content="韭黄溯源系统首页，包含登录引导与区块链食品安全学习任务" />
   <title>首页 - 韭黄溯源系统</title>
   <style>
     :root{
       --bg1:#0f111a; --bg2:#1b2035; --accent:#5b9cff; --accent2:#22d3ee;
-      --card:#161a28; --text:#e5e7eb; --muted:#9ca3af;
+      --card:#161a28; --card2:#1d253a; --text:#e5e7eb; --muted:#9ca3af;
       --radius:16px;
     }
     *{box-sizing:border-box}
     body{
       margin:0; font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      background:linear-gradient(135deg,var(--bg1),var(--bg2)); color:var(--text);
+      min-height:100vh; background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text); display:flex; justify-content:center; padding:40px 16px;
     }
-    .wrap{width:min(860px, 94vw); padding:32px}
-    .hero{
-      display:grid; grid-template-columns: 1.1fr 0.9fr; gap:28px;
-      align-items:center;
-    }
+    .wrap{width:min(960px,100%); display:flex; flex-direction:column; gap:24px;}
     .card{
       background:var(--card); border-radius:var(--radius);
       box-shadow:0 10px 40px rgba(0,0,0,.35); padding:28px;
     }
-    h1{margin:0 0 10px; font-size:28px}
-    p{margin:6px 0 16px; color:var(--muted)}
+    h1{margin:0 0 12px; font-size:30px}
+    h2{margin:18px 0 8px; font-size:22px}
+    p{margin:6px 0 12px; color:var(--muted)}
     .actions{display:flex; gap:12px; flex-wrap:wrap}
-    .btn{display:inline-block; padding:12px 18px; border-radius:12px; font-weight:700; text-decoration:none; color:#fff;
-      background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 6px 18px rgba(45,133,255,.25)}
+    .btn{display:inline-flex; align-items:center; justify-content:center; gap:6px;
+      padding:12px 18px; border-radius:12px; font-weight:700; text-decoration:none; color:#fff;
+      background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 6px 18px rgba(45,133,255,.25);
+      border:none; cursor:pointer; transition:all .2s ease;
+    }
     .btn.secondary{background:linear-gradient(135deg,#22d3ee,#10b981)}
-    .btn.web3{background:linear-gradient(135deg,#a78bfa,#5b9cff)}
-    .feature{
-      display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:18px
+    .btn.warn{background:linear-gradient(135deg,#f87171,#ef4444)}
+    .btn:hover{opacity:.92; transform:translateY(-1px)}
+    .feature-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-top:16px}
+    .feature-grid .card{padding:18px; background:var(--card2)}
+    .muted-box{background:rgba(15,23,42,.65); border-radius:14px; padding:16px; margin-top:14px}
+    .dashboard{display:none; flex-direction:column; gap:24px}
+    .dashboard.active{display:flex}
+    .question-list{display:flex; flex-direction:column; gap:18px; margin-top:12px}
+    .question-card{background:var(--card2); border-radius:14px; padding:20px; border:1px solid rgba(96,165,250,.2)}
+    .question-card h3{margin:0 0 10px; font-size:18px}
+    .question-card textarea{
+      width:100%; min-height:120px; border-radius:12px; padding:12px;
+      background:#0c1322; color:var(--text); border:1px solid rgba(148,163,184,.35);
+      resize:vertical; font-size:15px; line-height:1.5;
     }
-    .feature .card{padding:16px}
-    .feature h3{margin:0 0 6px; font-size:16px}
-    @media (max-width: 760px){
-      .hero{grid-template-columns:1fr}
-    }
+    .question-card textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 4px rgba(79,156,255,.25)}
+    .question-meta{font-size:13px; color:var(--muted); margin-bottom:12px; line-height:1.6}
+    .status{text-align:right; color:#a5f3fc; font-size:13px; min-height:18px}
+    @media (max-width: 760px){ body{padding:24px 12px;} }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="card">
-        <h1>韭黄溯源系统</h1>
-        <p>基于现代 Web 设计与可访问性最佳实践的作业示例页面。</p>
-        <div class="actions">
-          <a class="btn" href="login.html">立即登录</a>
-          <a class="btn secondary" href="register.html">注册新账户</a>
-          <a class="btn web3" href="login.html#web3">使用 Web3 登录</a>
-        </div>
+  <main class="wrap">
+    <section id="guest" class="card">
+      <h1>韭黄溯源系统</h1>
+      <p>欢迎访问示例项目。登录后，你将获得一份围绕“区块链在中国食品安全领域的作用”的互动学习任务。</p>
+      <div class="actions">
+        <a class="btn" href="login.html">立即登录</a>
+        <a class="btn secondary" href="register.html">注册新账号</a>
       </div>
-      <div class="card">
-        <h2 style="margin:0 0 8px;font-size:20px">页面说明</h2>
-        <p>本示例包含登录与注册两页，支持响应式布局、表单校验与 Web3 钱包交互（需安装 MetaMask 或兼容钱包）。</p>
-        <div class="feature">
-          <div class="card"><h3>易用</h3><p>清晰的表单提示与自动完成。</p></div>
-          <div class="card"><h3>安全</h3><p>前端校验与可扩展的签名验证。</p></div>
-          <div class="card"><h3>现代</h3><p>深色主题与渐变强调色。</p></div>
+      <section class="muted-box">
+        <h2 style="margin-top:0;font-size:20px;color:#bfdbfe">为什么要学习区块链 + 食品安全？</h2>
+        <div class="feature-grid">
+          <div class="card"><h3>全链路追溯</h3><p>原产地、加工、仓储、运输等环节写入链上，任何节点都可验证真伪与合规性。</p></div>
+          <div class="card"><h3>责任界定</h3><p>信息按时间顺序不可篡改，一旦出现问题可快速锁定责任主体，提高监管效率。</p></div>
+          <div class="card"><h3>多方协同</h3><p>农业农村部、市场监管、海关、企业等可共享可信数据，降低重复核验成本。</p></div>
         </div>
-        <h2 style="margin:14px 0 6px;font-size:18px">合规说明</h2>
-        <p style="margin:6px 0 0;color:var(--muted)">本示例为静态演示页面，不采集个人敏感信息、不进行持久化存储，仅用于课堂与学习目的。若用于实际业务，请遵守中国相关法律法规（包括但不限于《网络安全法》《数据安全法》《个人信息保护法》），落实最小必要、明示同意、用途告知、去向可追溯、跨境传输合规及本地化存储等要求。</p>
-        <p style="margin:6px 0 0;color:var(--muted)">Web3 登录仅进行链上地址签名验证，服务端落地时应避免将签名与可识别个人信息直接关联；如确需关联，应取得用户明确同意并按法规妥善存储与保护。</p>
-      </div>
+        <p>登录后你将围绕这些要点完成问答，输出你对区块链在食品安全场景中的理解。</p>
+      </section>
     </section>
-  </div>
+
+    <section id="dashboard" class="dashboard">
+      <section class="card" style="display:flex; flex-direction:column; gap:12px;">
+        <header>
+          <h1 style="margin-bottom:6px;">欢迎回来，<span id="user-name"></span>！</h1>
+          <p style="margin:0;color:var(--muted);">我们为你准备了三个思考题，帮助你梳理区块链在中国食品安全领域的应用路径。</p>
+        </header>
+        <div class="actions" style="justify-content:space-between; align-items:center;">
+          <span style="font-size:14px;color:var(--muted);">登录邮箱：<span id="user-email"></span></span>
+          <button id="logout-btn" class="btn warn" type="button">退出登录</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin-top:0;">区块链 + 食品安全：思考题</h2>
+        <p style="margin-bottom:0;">每个问题都支持离线保存（存储在浏览器 LocalStorage）。你可以在课堂分享你的答案。</p>
+        <div id="question-list" class="question-list"></div>
+        <div class="status" id="save-status"></div>
+      </section>
+
+      <section class="card">
+        <h2 style="margin-top:0;">参考要点</h2>
+        <ul style="margin:6px 0 0 18px; color:var(--muted); line-height:1.7;">
+          <li>政策背景：农业农村部《农产品质量安全追溯平台》、市场监管总局“阳光餐饮”等项目。</li>
+          <li>落地案例：蚂蚁链、腾讯安心平台、苏州阳澄湖大闸蟹、盒马鲜生商品溯源等。</li>
+          <li>技术挑战：数据上链真实性、隐私保护、链下协同、中小企业成本、跨部门治理。</li>
+          <li>合规要求：数据安全法、个人信息保护法、冷链食品追溯管理办法等法规约束。</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const guestSection = document.getElementById('guest');
+    const dashboard = document.getElementById('dashboard');
+    const questionList = document.getElementById('question-list');
+    const statusEl = document.getElementById('save-status');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userNameEl = document.getElementById('user-name');
+    const userEmailEl = document.getElementById('user-email');
+
+    const questions = [
+      {
+        title: '1. 如何利用区块链提升农产品追溯透明度？',
+        prompt: '描述从产地到餐桌的关键数据点，哪些应该上链？这些数据在突发食品安全事件中如何帮助快速锁定问题批次？',
+        hint: '建议涉及农场种植档案、加工检验记录、冷链仓储、运输交接、终端扫码验真等环节。',
+      },
+      {
+        title: '2. 在中国市场监管体系中，区块链与哪些部门/系统协同？',
+        prompt: '举例说明农业农村部、市场监管总局、海关、地方应急管理等角色如何共享链上数据，实现联合监管。',
+        hint: '可结合“智慧监管”、跨部门数据共享、AI 预警等角度展开。',
+      },
+      {
+        title: '3. 落地挑战与解决策略是什么？',
+        prompt: '分析企业上链成本、数据真实性、隐私保护、标准化等阻碍，并提出可行的技术或治理方案。',
+        hint: '可参考多中心节点、可信上传、联盟链治理、隐私计算、财政补贴等做法。',
+      },
+    ]
+
+    function storageKey(username){
+      return `jiuhuangweb3-answers-${username.toLowerCase()}`
+    }
+
+    function renderQuestions(answers){
+      questionList.innerHTML = ''
+      questions.forEach((q, index) => {
+        const card = document.createElement('article')
+        card.className = 'question-card'
+        card.innerHTML = `
+          <h3>${q.title}</h3>
+          <div class="question-meta">${q.prompt}</div>
+          <div class="question-meta" style="color:#60a5fa;">提示：${q.hint}</div>
+        `
+        const textarea = document.createElement('textarea')
+        textarea.name = `answer-${index}`
+        textarea.placeholder = '在这里写下你的思考...' 
+        textarea.value = answers[index] || ''
+        textarea.dataset.index = String(index)
+        card.appendChild(textarea)
+        questionList.appendChild(card)
+      })
+    }
+
+    function attachAutosave(username){
+      const key = storageKey(username)
+      let timer = 0
+      const updateStatus = text => {
+        statusEl.textContent = text
+        if (text){
+          setTimeout(() => { if (statusEl.textContent === text) statusEl.textContent = '' }, 2000)
+        }
+      }
+      questionList.addEventListener('input', event => {
+        if (!(event.target instanceof HTMLTextAreaElement)) return
+        const answers = Array.from(questionList.querySelectorAll('textarea')).map(t => t.value.trim())
+        clearTimeout(timer)
+        timer = window.setTimeout(() => {
+          localStorage.setItem(key, JSON.stringify(answers))
+          updateStatus('草稿已保存到浏览器')
+        }, 400)
+      })
+      logoutBtn.addEventListener('click', async () => {
+        await fetch('/logout', { method: 'POST', credentials: 'include' })
+        window.location.reload()
+      })
+    }
+
+    async function init(){
+      try {
+        const res = await fetch('/session', { credentials: 'include' })
+        if (!res.ok){
+          throw new Error('not logged in')
+        }
+        const data = await res.json()
+        if (!data.ok || !data.user) throw new Error('no user')
+        const user = data.user
+        userNameEl.textContent = user.username
+        userEmailEl.textContent = user.email
+        const saved = localStorage.getItem(storageKey(user.username))
+        const answers = saved ? JSON.parse(saved) : []
+
+        renderQuestions(answers)
+        attachAutosave(user.username)
+
+        guestSection.style.display = 'none'
+        dashboard.classList.add('active')
+      } catch (err) {
+        console.info('未登录，展示访客视图。', err)
+        guestSection.style.display = 'block'
+        dashboard.classList.remove('active')
+      }
+    }
+
+    init()
+  </script>
 </body>
 </html>
+
