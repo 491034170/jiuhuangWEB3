@@ -1,8 +1,8 @@
-name = "pages-app"
-compatibility_date = "2024-09-20"
+name = "jiuhuangweb3"
+main = "functions/index.js"
+compatibility_date = "2024-10-25"
 
 [[d1_databases]]
-binding = "DB"          # Env binding name used in code
-database_name = "pages_app_db"
-database_id = "local-dev" # For local dev this can be any string
-
+binding = "DB"
+database_name = "jiuhuangweb3"
+database_id = "121c1dab-f829-4724-9fa7-2778ada03cdf"
