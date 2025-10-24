@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="韭黄溯源系统简易首页，进入登录或注册页面。" />
+  <title>首页 - 韭黄溯源系统</title>
+  <style>
+    :root{
+      --bg1:#0f111a; --bg2:#1b2035; --accent:#5b9cff; --accent2:#22d3ee;
+      --card:#161a28; --text:#e5e7eb; --muted:#9ca3af;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2)); color:var(--text);
+    }
+    .wrap{width:min(860px, 94vw); padding:32px}
+    .hero{
+      display:grid; grid-template-columns: 1.1fr 0.9fr; gap:28px;
+      align-items:center;
+    }
+    .card{
+      background:var(--card); border-radius:var(--radius);
+      box-shadow:0 10px 40px rgba(0,0,0,.35); padding:28px;
+    }
+    h1{margin:0 0 10px; font-size:28px}
+    p{margin:6px 0 16px; color:var(--muted)}
+    .actions{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{display:inline-block; padding:12px 18px; border-radius:12px; font-weight:700; text-decoration:none; color:#fff;
+      background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 6px 18px rgba(45,133,255,.25)}
+    .btn.secondary{background:linear-gradient(135deg,#22d3ee,#10b981)}
+    .btn.web3{background:linear-gradient(135deg,#a78bfa,#5b9cff)}
+    .feature{
+      display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:18px
+    }
+    .feature .card{padding:16px}
+    .feature h3{margin:0 0 6px; font-size:16px}
+    @media (max-width: 760px){
+      .hero{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="card">
+        <h1>韭黄溯源系统</h1>
+        <p>基于现代 Web 设计与可访问性最佳实践的作业示例页面。</p>
+        <div class="actions">
+          <a class="btn" href="login.html">立即登录</a>
+          <a class="btn secondary" href="register.html">注册新账户</a>
+          <a class="btn web3" href="login.html#web3">使用 Web3 登录</a>
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="margin:0 0 8px;font-size:20px">页面说明</h2>
+        <p>本示例包含登录与注册两页，支持响应式布局、表单校验与 Web3 钱包交互（需安装 MetaMask 或兼容钱包）。</p>
+        <div class="feature">
+          <div class="card"><h3>易用</h3><p>清晰的表单提示与自动完成。</p></div>
+          <div class="card"><h3>安全</h3><p>前端校验与可扩展的签名验证。</p></div>
+          <div class="card"><h3>现代</h3><p>深色主题与渐变强调色。</p></div>
+        </div>
+        <h2 style="margin:14px 0 6px;font-size:18px">合规说明</h2>
+        <p style="margin:6px 0 0;color:var(--muted)">本示例为静态演示页面，不采集个人敏感信息、不进行持久化存储，仅用于课堂与学习目的。若用于实际业务，请遵守中国相关法律法规（包括但不限于《网络安全法》《数据安全法》《个人信息保护法》），落实最小必要、明示同意、用途告知、去向可追溯、跨境传输合规及本地化存储等要求。</p>
+        <p style="margin:6px 0 0;color:var(--muted)">Web3 登录仅进行链上地址签名验证，服务端落地时应避免将签名与可识别个人信息直接关联；如确需关联，应取得用户明确同意并按法规妥善存储与保护。</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

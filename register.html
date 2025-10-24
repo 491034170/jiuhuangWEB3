@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="韭黄溯源系统注册页面，创建新账户并设置安全密码。" />
+  <title>注册 - 韭黄溯源系统</title>
+  <style>
+    :root{
+      --bg1:#0e1120; --bg2:#182036;
+      --card:#141b2d; --accent:#4f9cff;
+      --text:#e5e7eb; --muted:#9ca3af;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0; font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      display:flex; min-height:100vh; justify-content:center; align-items:center;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+    }
+    .container{
+      width:min(420px, 92vw); padding:40px 36px; background:var(--card);
+      border-radius:var(--radius); box-shadow:0 0 30px rgba(0,0,0,.35);
+    }
+    h1{margin:0 0 24px;text-align:center;font-weight:700;}
+    .field{margin-bottom:18px;}
+    label{display:block;margin-bottom:6px;font-weight:600;}
+    input{
+      width:100%;padding:12px 14px;border:1px solid #2a3348;border-radius:var(--radius);
+      background:#0d1320;color:var(--text);outline:none;
+    }
+    input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(79,156,255,.25);}    
+    .btn{
+      width:100%;padding:12px;border:none;border-radius:var(--radius);
+      background:linear-gradient(135deg,var(--accent),#22d3ee);
+      color:white;font-size:16px;font-weight:700;cursor:pointer;
+      transition:.2s;
+    }
+    .btn:hover{opacity:.9;transform:translateY(-1px);}    
+    .extra{margin-top:12px;text-align:center;font-size:14px;color:var(--muted);}    
+    a{color:#93c5fd;text-decoration:none;}    
+    a:hover{text-decoration:underline;}    
+    .logo{text-align:center;margin-bottom:24px;}    
+    .logo img{width:60px;border-radius:50%;box-shadow:0 0 10px rgba(79,156,255,.3);}    
+    #strength{font-size:13px;margin-top:4px;color:var(--muted);}    
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="logo">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f331.svg" alt="logo" />
+    </div>
+    <h1>注册新账户</h1>
+    <form method="post" action="/register" onsubmit="return validate();" novalidate>
+      <div class="field">
+        <label for="username">用户名</label>
+        <input id="username" name="username" type="text" required minlength="3" maxlength="20" placeholder="请输入用户名" autocomplete="username" />
+      </div>
+      <div class="field">
+        <label for="email">邮箱</label>
+        <input id="email" name="email" type="email" required placeholder="email@example.com" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="password">密码</label>
+        <input id="password" name="password" type="password" required minlength="8" placeholder="至少 8 位，含数字与字母" autocomplete="new-password" />
+        <div id="strength" aria-live="polite">密码强度：弱</div>
+      </div>
+      <div class="field">
+        <label for="confirm">确认密码</label>
+        <input id="confirm" name="confirm" type="password" required placeholder="再次输入密码" autocomplete="new-password" />
+      </div>
+      <button type="submit" class="btn">注册</button>
+    </form>
+    <div class="extra">
+      已有账号？<a href="login.html">返回登录</a>
+    </div>
+  </main>
+
+  <script>
+    const pwd = document.getElementById('password');
+    const strength = document.getElementById('strength');
+    const confirmInput = document.getElementById('confirm');
+
+    pwd.addEventListener('input', ()=>{
+      const v = pwd.value;
+      let score=0;
+      if(v.length>=8)score++;
+      if(/[0-9]/.test(v))score++;
+      if(/[a-z]/.test(v))score++;
+      if(/[A-Z]/.test(v))score++;
+      if(/[^\w]/.test(v))score++;
+      const levels=['弱','一般','良好','强','极强'];
+      const level = levels[Math.min(score,4)];
+      strength.textContent = `密码强度：${level}`;
+      strength.style.color = score>=4?'#10b981':score>=3?'#22d3ee':score>=2?'#facc15':'#f87171';
+    });
+
+    function validate(){
+      const p=pwd.value, c=confirmInput.value;
+      if(p!==c){
+        alert('两次输入的密码不一致');
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>

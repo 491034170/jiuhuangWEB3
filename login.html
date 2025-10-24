@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="韭黄溯源系统登录页面，支持账号密码与 Web3 钱包登录。" />
+  <title>登录 - 韭黄溯源系统（Web3 版）</title>
+  <style>
+    :root{
+      --bg1:#0f111a; --bg2:#1b2035; --accent:#5b9cff; --accent2:#22d3ee;
+      --card:#161a28; --text:#e5e7eb; --muted:#9ca3af;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0; font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      min-height:100vh; display:flex; justify-content:center; align-items:center;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+    }
+    .container{
+      width:min(420px, 92vw); padding:40px 36px; background:var(--card);
+      border-radius:var(--radius); box-shadow:0 0 40px rgba(0,0,0,.35);
+    }
+    h1{margin:0 0 24px;text-align:center;font-weight:700;}
+    label{display:block;margin-bottom:6px;font-weight:600;}
+    input{
+      width:100%;padding:12px 14px;border-radius:var(--radius);
+      border:1px solid #2a3348;background:#0d1320;color:var(--text);outline:none;
+    }
+    input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(79,156,255,.25);}    
+    .btn{
+      width:100%;padding:12px;border:none;border-radius:var(--radius);
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:white;font-size:16px;font-weight:700;cursor:pointer;
+      transition:.2s;
+    }
+    .btn:hover{opacity:.9;transform:translateY(-1px);}    
+    .extra{text-align:center;margin-top:16px;font-size:14px;color:var(--muted);}    
+    a{color:#93c5fd;text-decoration:none;}    
+    a:hover{text-decoration:underline;}    
+    .divider{margin:22px 0;text-align:center;position:relative;color:var(--muted);}    
+    .divider::before,.divider::after{
+      content:'';position:absolute;top:50%;width:40%;height:1px;background:rgba(255,255,255,.08);
+    }
+    .divider::before{left:0;} .divider::after{right:0;}
+    .web3-box{
+      border:1px solid rgba(79,156,255,.25);
+      border-radius:var(--radius);
+      padding:14px 18px;text-align:center;
+      background:rgba(79,156,255,.08);
+    }
+    .web3-box button{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border:none;border-radius:var(--radius);
+      color:white;font-weight:600;padding:10px 18px;cursor:pointer;
+    }
+    .address{margin-top:10px;font-size:13px;color:var(--muted);}    
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>登录韭黄溯源系统</h1>
+    <form method="post" action="/login" novalidate>
+      <label for="username">用户名</label>
+      <input id="username" name="username" type="text" required placeholder="请输入用户名" autocomplete="username" />
+
+      <label for="password">密码</label>
+      <input id="password" name="password" type="password" required placeholder="请输入密码" autocomplete="current-password" />
+
+      <button class="btn" type="submit">登录</button>
+    </form>
+
+    <div class="divider" aria-hidden="true">或使用 Web3 身份登录</div>
+
+    <section id="web3" class="web3-box" aria-labelledby="web3Title">
+      <h2 id="web3Title" class="sr-only">Web3 钱包登录</h2>
+      <p>连接钱包验证您的链上身份</p>
+      <button id="connectBtn" type="button" aria-describedby="addressBox">连接钱包</button>
+      <div class="address" id="addressBox" aria-live="polite"></div>
+    </section>
+
+    <div class="extra">
+      没有账号？<a href="register.html">立即注册</a>
+    </div>
+  </main>
+
+  <noscript>请启用 JavaScript 以使用 Web3 登录功能。</noscript>
+
+  <script>
+    const connectBtn = document.getElementById('connectBtn');
+    const addressBox = document.getElementById('addressBox');
+
+    if (typeof window.ethereum === 'undefined') {
+      connectBtn.disabled = true;
+      connectBtn.textContent = '请先安装 MetaMask 钱包';
+      connectBtn.style.opacity = 0.6;
+    }
+
+    connectBtn?.addEventListener('click', async () => {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const addr = accounts?.[0] || '';
+        addressBox.textContent = `钱包地址：${addr}`;
+        connectBtn.textContent = '已连接';
+        connectBtn.style.background = 'linear-gradient(135deg,#10b981,#22d3ee)';
+
+        const msg = `登录韭黄溯源系统\n地址：${addr}\n时间：${new Date().toLocaleString()}`;
+        const signature = await window.ethereum.request({ method: 'personal_sign', params: [msg, addr] });
+        console.log('签名结果:', signature);
+
+        // 示例：发送到后端验证
+        // await fetch('/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ address: addr, signature }) });
+
+        alert('钱包已连接并签名完成！（仅演示）');
+      } catch (err) {
+        console.error(err);
+        alert(`连接失败：${err?.message || err}`);
+      }
+    });
+  </script>
+</body>
+</html>

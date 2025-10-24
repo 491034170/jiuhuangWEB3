@@ -1,0 +1,27 @@
+name: D1 Migrations
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Wrangler
+        run: npm i -g wrangler
+      - name: Apply D1 migrations (remote)
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: |
+          DB_NAME="${{ secrets.D1_DB_NAME }}"
+          if [ -z "$DB_NAME" ]; then DB_NAME="pages_app_db"; fi
+          echo "Applying migrations to: $DB_NAME"
+          wrangler d1 migrations apply "$DB_NAME" --remote
+

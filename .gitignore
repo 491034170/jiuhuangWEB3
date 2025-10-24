@@ -1,0 +1,27 @@
+# OS & editor
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+
+# Node / package managers
+node_modules/
+.pnpm-store/
+
+# Build artifacts
+dist/
+build/
+coverage/
+
+# Env & local config
+.env
+.env.*
+.wrangler/
+
+# Local DB snapshots/exports
+*.sqlite
+*.sqlite-journal
+*.db
+*.db-journal
+
