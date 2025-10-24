@@ -36,4 +36,11 @@ jobs:
         shell: bash
         run: |
           echo "➡️ Using account: $CLOUDFLARE_ACCOUNT_ID"
-          wrangler d1 migrations apply DB --remote --account-id "$CLOUDFLARE_ACCOUNT_ID"
+          echo "🪶 Checking wrangler.toml content:"
+          cat wrangler.toml
+          echo "🚀 Running migration..."
+          wrangler d1 migrations apply DB --remote --account-id "$CLOUDFLARE_ACCOUNT_ID" || (
+            echo "❌ Migration failed. Dumping logs..."
+            cat ~/.config/.wrangler/logs/*.log || echo "⚠️ No log file found."
+            exit 1
+          )
