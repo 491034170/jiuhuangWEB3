@@ -9,19 +9,32 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install Wrangler
-        run: npm i -g wrangler
+        run: npm i -g wrangler@latest
+
+      - name: Show Wrangler version
+        run: wrangler --version
+
       - name: Apply D1 migrations (remote)
         env:
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          # 必填：在仓库 Settings → Secrets and variables → Actions 添加这个 Secret
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+          # 可选：如果你的 wrangler.toml 需要显式账户ID，可以提供（通常不必）
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+          # 你的 D1 数据库名（推荐做成 Secret；没有则回退到 jiuhuangweb3）
+          D1_DB_NAME: ${{ secrets.D1_DB_NAME }}
         run: |
-          DB_NAME="${{ secrets.D1_DB_NAME }}"
-          if [ -z "$DB_NAME" ]; then DB_NAME="pages_app_db"; fi
+          DB_NAME="${D1_DB_NAME}"
+          if [ -z "$DB_NAME" ]; then DB_NAME="jiuhuangweb3"; fi
           echo "Applying migrations to: $DB_NAME"
           wrangler d1 migrations apply "$DB_NAME" --remote
-
