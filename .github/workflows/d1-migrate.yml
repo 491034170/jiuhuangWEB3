@@ -37,4 +37,5 @@ jobs:
       - name: Apply D1 migrations (remote)
         shell: bash
         run: |
-          wrangler d1 migrations apply DB --remote --account-id "$CLOUDFLARE_ACCOUNT_ID"
+          echo "🚀 Applying D1 migrations to database ID: $D1_DB_ID"
+          wrangler d1 migrations apply "$D1_DB_ID" --remote --account-id "$CLOUDFLARE_ACCOUNT_ID"
