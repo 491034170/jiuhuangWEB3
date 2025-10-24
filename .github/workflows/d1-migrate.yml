@@ -9,6 +9,11 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
 
+    env:
+      CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      D1_DB: ${{ secrets.D1_DB }}  # 这里用你刚加的 Secret（数据库 UUID 或 名称）
+
     steps:
       - uses: actions/checkout@v4
 
@@ -25,21 +30,18 @@ jobs:
       - name: Sanity check secrets
         shell: bash
         run: |
-          test -n "${{ secrets.CLOUDFLARE_API_TOKEN }}" || (echo "❌ Missing CLOUDFLARE_API_TOKEN" && exit 1)
-          test -n "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" || (echo "❌ Missing CLOUDFLARE_ACCOUNT_ID" && exit 1)
+          test -n "$CF_API_TOKEN" || (echo "❌ Missing CLOUDFLARE_API_TOKEN" && exit 1)
+          test -n "$CF_ACCOUNT_ID" || (echo "❌ Missing CLOUDFLARE_ACCOUNT_ID" && exit 1)
+          test -n "$D1_DB" || (echo "❌ Missing D1_DB (UUID or name)" && exit 1)
 
-      - name: Apply D1 migrations (remote)
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: List D1 databases (for sanity)
         shell: bash
         run: |
-          echo "➡️ Using account: $CLOUDFLARE_ACCOUNT_ID"
-          echo "🪶 Checking wrangler.toml content:"
-          cat wrangler.toml
-          echo "🚀 Running migration..."
-          wrangler d1 migrations apply DB --remote --account-id "$CLOUDFLARE_ACCOUNT_ID" || (
-            echo "❌ Migration failed. Dumping logs..."
-            cat ~/.config/.wrangler/logs/*.log || echo "⚠️ No log file found."
-            exit 1
-          )
+          wrangler d1 list --account-id "$CF_ACCOUNT_ID"
+
+      - name: Apply D1 migrations (remote)
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "➡️ Applying migrations to: $D1_DB"
+          wrangler d1 migrations apply "$D1_DB" --remote --account-id "$CF_ACCOUNT_ID"
