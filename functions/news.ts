@@ -16,9 +16,46 @@ const RSS_SOURCES: Array<{ name: string; url: string; limit?: number }> = [
 const CACHE_TTL_MS = 30 * 60 * 1000 // 30 minutes
 const CACHE_KEY_PATH = '/__news-cache/v1'
 
+const HTML_ENTITIES: Record<string, string> = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+}
+
+function decodeHtmlEntities(value: string): string {
+  return value.replace(/&(#\d+|#x[\da-f]+|\w+);/gi, (_, entity) => {
+    if (entity[0] === '#') {
+      const code = entity[1].toLowerCase() === 'x' ? parseInt(entity.slice(2), 16) : parseInt(entity.slice(1), 10)
+      return Number.isFinite(code) ? String.fromCodePoint(code) : _
+    }
+    return HTML_ENTITIES[entity] ?? _
+  })
+}
+
 function sanitizeText(value: string | null | undefined): string {
   if (!value) return ''
-  return value.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/\s+/g, ' ').trim()
+  return decodeHtmlEntities(value.replace(/<!\[CDATA\[|\]\]>/g, '').trim())
+}
+
+function extractTagContent(xml: string, tag: string): string {
+  const pattern = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i')
+  const match = xml.match(pattern)
+  return match ? sanitizeText(match[1]) : ''
+}
+
+function extractFirstMatch(xml: string, expressions: string[]): string {
+  for (const expr of expressions) {
+    const value = extractTagContent(xml, expr)
+    if (value) return value
+  }
+  return ''
+}
+
+function splitItems(xml: string): string[] {
+  const matches = xml.match(/<item[\s\S]*?<\/item>/gi)
+  return matches ? matches : []
 }
 
 async function fetchRSSFeed(url: string, source: string, limit = 6): Promise<NewsItem[]> {
@@ -26,20 +63,15 @@ async function fetchRSSFeed(url: string, source: string, limit = 6): Promise<New
   if (!res.ok) throw new Error(`fetch ${source} failed: ${res.status}`)
 
   const xml = await res.text()
-  const doc = new DOMParser().parseFromString(xml, 'application/xml')
-  const items = Array.from(doc.querySelectorAll('item')).slice(0, limit)
+  const items = splitItems(xml).slice(0, limit)
 
   return items
     .map(item => {
-      const title = sanitizeText(item.querySelector('title')?.textContent) || '未命名资讯'
-      const link =
-        sanitizeText(item.querySelector('link')?.textContent) ||
-        sanitizeText(item.querySelector('guid')?.textContent) ||
-        url
+      const title = extractTagContent(item, 'title') || '未命名资讯'
+      const link = extractFirstMatch(item, ['link', 'guid']) || url
       const publishedRaw =
-        sanitizeText(item.querySelector('pubDate')?.textContent) ||
-        sanitizeText(item.querySelector('dc\\:date')?.textContent) ||
-        ''
+        extractFirstMatch(item, ['pubDate', 'dc:date', 'dc:created', 'updated', 'lastBuildDate']) ||
+        url
       const publishedDate = new Date(publishedRaw || Date.now())
       const published = Number.isNaN(publishedDate.valueOf())
         ? new Date().toISOString()
