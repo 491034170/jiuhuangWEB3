@@ -3,208 +3,413 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="韭黄溯源系统首页，包含登录引导、区块链食品安全学习任务与实时资讯" />
+  <meta name="description" content="韭黄溯源系统首页，展示区块链食品安全学习任务、用户进度与实时行业资讯。" />
   <title>首页 - 韭黄溯源系统</title>
   <style>
     :root {
-      --bg1: #0f111a;
-      --bg2: #1b2035;
-      --accent: #5b9cff;
-      --accent2: #22d3ee;
-      --card: #161a28;
-      --card2: #1d253a;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --radius: 16px;
+      --bg: #050a18;
+      --bg-alt: #0b1430;
+      --card: rgba(14, 23, 47, 0.78);
+      --card-solid: #101b36;
+      --accent: #60a5fa;
+      --accent-strong: #38bdf8;
+      --accent-soft: rgba(96, 165, 250, 0.16);
+      --warn: #f97316;
+      --success: #34d399;
+      --muted: #94a3b8;
+      --text: #f8fafc;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 28px 70px rgba(8, 13, 35, 0.55);
+      --font-sans: "Inter", "HarmonyOS Sans", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --gradient-primary: linear-gradient(135deg, rgba(59, 130, 246, 0.92), rgba(14, 165, 233, 0.88));
+      --gradient-secondary: linear-gradient(135deg, rgba(248, 113, 113, 0.9), rgba(249, 115, 22, 0.9));
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
       min-height: 100vh;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      font-family: var(--font-sans);
       color: var(--text);
+      background:
+        radial-gradient(circle at -10% 0%, rgba(59, 130, 246, 0.18), transparent 55%),
+        radial-gradient(circle at 110% 15%, rgba(14, 165, 233, 0.2), transparent 45%),
+        linear-gradient(165deg, var(--bg) 5%, #07112a 52%, var(--bg) 95%);
       display: flex;
       justify-content: center;
-      padding: 40px 16px;
+      padding: 54px 20px 68px;
     }
 
-    .wrap { width: min(960px, 100%); display: flex; flex-direction: column; gap: 24px; }
+    main {
+      width: min(1130px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
 
-    .card {
+    .panel {
       background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, .35);
-      padding: 28px;
+      backdrop-filter: blur(28px);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(148, 163, 184, 0.14);
     }
 
-    h1 { margin: 0 0 12px; font-size: 30px; }
-    h2 { margin: 18px 0 8px; font-size: 22px; }
-    p { margin: 6px 0 12px; color: var(--muted); }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr);
+      gap: 38px;
+      align-items: center;
+    }
 
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--accent-strong);
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 0.4px;
+    }
+
+    h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(28px, 4.2vw, 40px);
+      line-height: 1.22;
+    }
+
+    p { margin: 0 0 14px; color: var(--muted); line-height: 1.7; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 20px;
+    }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 12px 18px;
-      border-radius: 12px;
-      font-weight: 700;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 15px;
       text-decoration: none;
-      color: #fff;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 6px 18px rgba(45, 133, 255, .25);
       border: none;
+      color: #fff;
       cursor: pointer;
-      transition: all .2s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      box-shadow: 0 12px 28px rgba(59, 130, 246, 0.28);
+      background: var(--gradient-primary);
     }
 
-    .btn.secondary { background: linear-gradient(135deg, #22d3ee, #10b981); }
-    .btn.highlight { background: linear-gradient(135deg, #f6ad55, #f97316); }
-    .btn.warn { background: linear-gradient(135deg, #f87171, #ef4444); }
-    .btn:hover { opacity: .92; transform: translateY(-1px); }
+    .btn.secondary {
+      background: rgba(96, 165, 250, 0.14);
+      color: #dbeafe;
+      box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.35);
+    }
 
-    .feature-grid {
+    .btn.highlight {
+      background: var(--gradient-secondary);
+      box-shadow: 0 12px 28px rgba(249, 115, 22, 0.24);
+    }
+
+    .btn.warn {
+      background: rgba(248, 113, 113, 0.22);
+      color: #fee2e2;
+      box-shadow: inset 0 0 0 1px rgba(248, 113, 113, 0.4);
+    }
+
+    .btn:hover { transform: translateY(-2px); opacity: 0.94; }
+
+    .feature-points {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 16px;
-      margin-top: 16px;
+      margin-top: 28px;
     }
 
-    .feature-grid .card { padding: 18px; background: var(--card2); }
+    .feature-card {
+      background: rgba(15, 23, 42, 0.58);
+      border: 1px solid rgba(96, 165, 250, 0.18);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
 
-    .muted-box { background: rgba(15, 23, 42, .65); border-radius: 14px; padding: 16px; margin-top: 14px; }
+    .feature-card strong { font-size: 16px; color: #dbeafe; }
+    .feature-card span { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
-    .dashboard { display: none; flex-direction: column; gap: 24px; }
+    .hero-side {
+      background: var(--card-solid);
+      border-radius: var(--radius-md);
+      padding: 26px 28px;
+      border: 1px solid rgba(59, 130, 246, 0.22);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: inset 0 0 28px rgba(12, 21, 41, 0.48);
+    }
+
+    .hero-side h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .stat-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: rgba(30, 41, 59, 0.65);
+      border-radius: 14px;
+      padding: 16px 18px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+
+    .stat-card div { font-size: 13px; color: var(--muted); }
+    .stat-card strong { display: block; margin-top: 10px; font-size: 24px; color: #e2e8f0; }
+
+    .dashboard { display: none; flex-direction: column; gap: 26px; }
     .dashboard.active { display: flex; }
 
-    .question-list { display: flex; flex-direction: column; gap: 18px; margin-top: 12px; }
-    .question-card { background: var(--card2); border-radius: 14px; padding: 20px; border: 1px solid rgba(96, 165, 250, .2); }
-    .question-card h3 { margin: 0 0 10px; font-size: 18px; }
-    .question-card textarea {
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .question-list { display: flex; flex-direction: column; gap: 20px; margin-top: 16px; }
+    .question-card {
+      background: rgba(16, 24, 48, 0.82);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      border: 1px solid rgba(96, 165, 250, 0.2);
+    }
+
+    .question-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: #e0f2fe;
+    }
+
+    .question-meta { font-size: 14px; color: var(--muted); line-height: 1.7; margin: 0 0 12px; }
+    .question-hint { color: #bae6fd; }
+
+    textarea {
       width: 100%;
-      min-height: 120px;
-      border-radius: 12px;
-      padding: 12px;
-      background: #0c1322;
+      min-height: 126px;
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(9, 15, 32, 0.88);
       color: var(--text);
-      border: 1px solid rgba(148, 163, 184, .35);
-      resize: vertical;
+      border: 1px solid rgba(148, 163, 184, 0.32);
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
+      resize: vertical;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .question-card textarea:focus {
+    textarea:focus {
       outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(79, 156, 255, .25);
+      border-color: rgba(96, 165, 250, 0.9);
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.22);
     }
 
-    .question-meta { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.6; }
-    .status { text-align: right; color: #a5f3fc; font-size: 13px; min-height: 18px; }
+    .status {
+      text-align: right;
+      font-size: 13px;
+      color: rgba(144, 205, 244, 0.92);
+      min-height: 18px;
+    }
 
-    .news-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
-    .news-item a { color: #bfdbfe; text-decoration: none; font-weight: 600; }
+    .news-list { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-direction: column; gap: 14px; }
+    .news-item {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px solid rgba(59, 130, 246, 0.16);
+    }
+
+    .news-item a {
+      color: #dbeafe;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+    }
+
     .news-item a:hover { text-decoration: underline; }
-    .news-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
 
-    @media (max-width: 760px) {
-      body { padding: 24px 12px; }
+    .news-meta { margin-top: 8px; font-size: 13px; color: var(--muted); }
+
+    .tips-list {
+      margin: 12px 0 0 18px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 14px;
+    }
+
+    @media (max-width: 960px) {
+      body { padding: 32px 16px 42px; }
+      .panel { padding: 26px; border-radius: 18px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
       .actions { flex-direction: column; align-items: stretch; }
+      .hero-side { padding: 24px; }
+    }
+
+    @media (max-width: 640px) {
+      main { gap: 22px; }
+      .panel { padding: 24px; }
+      textarea { min-height: 110px; }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section id="guest" class="card">
-      <h1>韭黄溯源系统</h1>
-      <p>欢迎访问示例项目。登录后，你将获得一份围绕“区块链在中国食品安全领域的作用”的互动学习任务。</p>
-      <div class="actions">
-        <a class="btn" href="login.html">立即登录</a>
-        <a class="btn secondary" href="register.html">注册新账号</a>
-        <a class="btn highlight" href="https://jiuhuang.pages.dev/" target="_blank" rel="noopener">查看宣传站</a>
-      </div>
-      <section class="muted-box">
-        <h2 style="margin-top:0;font-size:20px;color:#bfdbfe">为什么要学习区块链 + 食品安全？</h2>
-        <div class="feature-grid">
-          <div class="card"><h3>全链路追溯</h3><p>原产地、加工、仓储、运输等环节写入链上，任何节点都可验证真伪与合规性。</p></div>
-          <div class="card"><h3>责任界定</h3><p>信息按时间顺序不可篡改，一旦出现问题可快速锁定责任主体，提高监管效率。</p></div>
-          <div class="card"><h3>多方协同</h3><p>农业农村部、市场监管、海关、企业等可共享可信数据，降低重复核验成本。</p></div>
+  <main>
+    <section id="guest" class="panel">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="badge">韭黄溯源系统 · 区块链实践课堂</span>
+          <h1>让产地到餐桌透明可见，一站式掌握区块链食品安全方案</h1>
+          <p>
+            登录后即可领取区块链食品安全专题任务，按照流程体验数据上链、协同监管与应急响应等模块，
+            打造真实的“韭黄产业数字化”综合案例。
+          </p>
+          <div class="actions">
+            <a class="btn" href="login.html">立即登录</a>
+            <a class="btn secondary" href="register.html">注册新账号</a>
+            <a class="btn highlight" href="https://jiuhuang.pages.dev/" target="_blank" rel="noopener">访问演示站点</a>
+          </div>
+          <div class="feature-points">
+            <div class="feature-card">
+              <strong>全链路可信</strong>
+              <span>记录种植档案、质检证明、冷链流向到零售验真，信息一链到底。</span>
+            </div>
+            <div class="feature-card">
+              <strong>监管协同</strong>
+              <span>农业农村部、市场监管总局、地方应急等多部门共享链上数据。</span>
+            </div>
+            <div class="feature-card">
+              <strong>事件预警</strong>
+              <span>结合 AI 舆情与温控监测，提前锁定潜在风险批次。</span>
+            </div>
+          </div>
         </div>
-        <p>登录后你将围绕这些要点完成问答，输出你对区块链在食品安全场景中的理解。</p>
-      </section>
+        <aside class="hero-side">
+          <h2>体验亮点</h2>
+          <div class="stat-list">
+            <div class="stat-card">
+              <div>覆盖业务节点</div>
+              <strong>12+</strong>
+            </div>
+            <div class="stat-card">
+              <div>模拟监管流程</div>
+              <strong>5 套</strong>
+            </div>
+            <div class="stat-card">
+              <div>最新行业资讯</div>
+              <strong>实时</strong>
+            </div>
+          </div>
+          <p style="margin: 4px 0 0; font-size: 13px;">
+            课程适合希望了解农产品溯源、区块链底层设计与协同监管机制的同学。
+          </p>
+        </aside>
+      </div>
     </section>
 
     <section id="dashboard" class="dashboard">
-      <section class="card" style="display:flex; flex-direction:column; gap:12px;">
+      <section class="panel" style="display: flex; flex-direction: column; gap: 18px;">
         <header>
-          <h1 style="margin-bottom:6px;">欢迎回来，<span id="user-name"></span>！</h1>
-          <p style="margin:0;color:var(--muted);">我们为你准备了三个思考题，帮助你梳理区块链在中国食品安全领域的应用路径。</p>
+          <span class="badge">欢迎回来</span>
+          <h1 style="margin: 14px 0 10px;">你好，<span id="user-name"></span></h1>
+          <p style="margin: 0;">
+            以下为你的专题任务。我们会自动保存草稿，完成后可与同学分享成果，共同完善韭黄产业链治理方案。
+          </p>
         </header>
-        <div class="actions" style="justify-content:space-between; align-items:center;">
-          <span style="font-size:14px;color:var(--muted);">登录邮箱：<span id="user-email"></span></span>
+        <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;">
+          <span style="font-size: 14px; color: var(--muted);">登录邮箱：<span id="user-email"></span></span>
           <button id="logout-btn" class="btn warn" type="button">退出登录</button>
         </div>
       </section>
 
-      <section class="card">
-        <h2 style="margin-top:0;">区块链 + 食品安全：思考题</h2>
-        <p style="margin-bottom:0;">每个问题都支持离线保存（存储在浏览器 LocalStorage），课堂分享时可直接调用你的答案。</p>
+      <section class="panel">
+        <h2 class="section-title">区块链 + 韭黄产业专题研讨</h2>
+        <p style="margin-bottom: 0;">
+          每道题支持分段撰写，我们会自动同步到浏览器本地存储，换设备后也能一眼查看历史思路。
+        </p>
         <div id="question-list" class="question-list"></div>
-        <div class="status" id="save-status"></div>
+        <div id="save-status" class="status"></div>
       </section>
 
-      <section class="card">
-        <h2 style="margin-top:0;">参考要点</h2>
-        <ul style="margin:6px 0 0 18px; color:var(--muted); line-height:1.7;">
-          <li>政策背景：农产品质量安全追溯平台、“阳光餐饮”等国家项目。</li>
-          <li>落地案例：蚂蚁链、腾讯安心平台、阳澄湖大闸蟹、盒马鲜生等。</li>
-          <li>技术挑战：数据真实性、隐私保护、中小企业成本、标准互通。</li>
-          <li>合规要求：数据安全法、个保法、冷链食品追溯管理办法等法规。</li>
+      <section class="panel">
+        <h2 class="section-title">参考要点</h2>
+        <ul class="tips-list">
+          <li>聚焦韭黄供应链，覆盖“种植—检测—冷链—批发—零售”关键节点。</li>
+          <li>善用联盟链治理、可信上传、隐私计算等手段应对数据可信与隐私挑战。</li>
+          <li>分析企业落地成本、标准不统一、跨部门协同等痛点并给出缓解路径。</li>
+          <li>结合舆情监测、AI 预警、应急溯源快速生成处置建议。</li>
         </ul>
       </section>
     </section>
 
-    <section class="card" id="news-card">
-      <h2 style="margin-top:0;">区块链热点新闻（中国）</h2>
-      <p>以下资讯由开源 RSS 聚合，缓存 30 分钟，覆盖巴比特、金色财经、链闻等媒体。</p>
+    <section class="panel" id="news-card">
+      <h2 class="section-title" style="margin-bottom: 6px;">区块链与农业食品最新资讯</h2>
+      <p style="margin: 0;">
+        资讯来自巴比特、金色财经、链闻等可信渠道，默认每 30 分钟自动刷新，确保课堂案例紧贴一线动态。
+      </p>
       <ul id="news-list" class="news-list">
-        <li id="news-placeholder" class="news-item">正在加载最新动态...</li>
+        <li id="news-placeholder" class="news-item">
+          正在获取最新资讯，请稍候...
+          <div class="news-meta">若长时间未加载，可刷新页面或稍后重试。</div>
+        </li>
       </ul>
-      <div id="news-status" class="news-meta"></div>
+      <div id="news-status" class="news-meta" style="margin-top: 18px;"></div>
     </section>
   </main>
 
   <script>
-    const guestSection = document.getElementById('guest');
-    const dashboard = document.getElementById('dashboard');
-    const questionList = document.getElementById('question-list');
-    const statusEl = document.getElementById('save-status');
-    const logoutBtn = document.getElementById('logout-btn');
-    const userNameEl = document.getElementById('user-name');
-    const userEmailEl = document.getElementById('user-email');
-    const newsList = document.getElementById('news-list');
-    const newsStatus = document.getElementById('news-status');
+    const guestSection = document.getElementById('guest')
+    const dashboard = document.getElementById('dashboard')
+    const questionList = document.getElementById('question-list')
+    const statusEl = document.getElementById('save-status')
+    const logoutBtn = document.getElementById('logout-btn')
+    const userNameEl = document.getElementById('user-name')
+    const userEmailEl = document.getElementById('user-email')
+    const newsList = document.getElementById('news-list')
+    const newsStatus = document.getElementById('news-status')
+
+    const NEWS_REFRESH_MS = 30 * 60 * 1000
+    let newsTimer = 0
 
     const questions = [
       {
-        title: '1. 如何利用区块链提升农产品追溯透明度？',
-        prompt: '描述从产地到餐桌的关键数据点，哪些应该上链？突发食品安全事件中如何帮助快速锁定问题批次？',
-        hint: '包含种植档案、检验记录、冷链仓储、运输交接、终端扫码验真等环节。',
+        title: '1. 如何利用区块链提升韭黄供应链的透明度？',
+        prompt:
+          '描述从种植端到消费端的关键数据点（种植档案、检测报告、冷链温控、交接记录、终端扫码等），分析哪些信息需要上链，以及突发食品安全事件中如何快速锁定问题批次。',
+        hint: '考虑链上链下协同、物联网设备可信上传、扫描验真等环节。',
       },
       {
-        title: '2. 在中国监管体系中，区块链如何与多部门协同？',
-        prompt: '举例说明农业农村部、市场监管总局、海关、地方应急管理等角色如何共享链上数据，实现联合监管。',
-        hint: '可结合智慧监管、跨部门数据共享、AI 预警等实践。',
+        title: '2. 在我国监管体系下如何实现跨部门协同治理？',
+        prompt:
+          '举例说明农业农村部、市场监管总局、地方应急管理、海关等角色如何共享链上数据，实现联合监管与快速响应。',
+        hint: '可以结合智慧监管、预警联动、稽核追责等场景。',
       },
       {
-        title: '3. 落地面临哪些挑战？如何解决？',
-        prompt: '分析企业上链成本、数据真实性、隐私保护、标准化等阻碍，并提出可行的技术或治理方案。',
-        hint: '考虑联盟链治理、可信上传、隐私计算、财政补贴等应对措施。',
+        title: '3. 落地过程中会遇到哪些挑战？如何应对？',
+        prompt:
+          '围绕企业上链成本、数据真实性、隐私保护、标准不统一等问题，提出可行的技术或治理方案。',
+        hint: '可从联盟链治理、财政补贴、隐私计算、标准制定等角度展开。',
       },
     ]
 
@@ -220,11 +425,11 @@
         card.innerHTML = `
           <h3>${q.title}</h3>
           <div class="question-meta">${q.prompt}</div>
-          <div class="question-meta" style="color:#60a5fa;">提示：${q.hint}</div>
+          <div class="question-meta question-hint">提示：${q.hint}</div>
         `
         const textarea = document.createElement('textarea')
         textarea.name = `answer-${index}`
-        textarea.placeholder = '在这里写下你的思考...'
+        textarea.placeholder = '在这里记录你的思路、案例或参考数据……'
         textarea.value = answers[index] || ''
         textarea.dataset.index = String(index)
         card.appendChild(textarea)
@@ -238,22 +443,27 @@
       const updateStatus = text => {
         statusEl.textContent = text
         if (text) {
-          setTimeout(() => { if (statusEl.textContent === text) statusEl.textContent = '' }, 2000)
+          window.setTimeout(() => {
+            if (statusEl.textContent === text) statusEl.textContent = ''
+          }, 2200)
         }
       }
       questionList.addEventListener('input', event => {
         if (!(event.target instanceof HTMLTextAreaElement)) return
         const answers = Array.from(questionList.querySelectorAll('textarea')).map(t => t.value.trim())
-        clearTimeout(timer)
+        window.clearTimeout(timer)
         timer = window.setTimeout(() => {
           localStorage.setItem(key, JSON.stringify(answers))
-          updateStatus('草稿已保存到浏览器')
-        }, 400)
+          updateStatus('草稿已同步到浏览器')
+        }, 420)
       })
       if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-          await fetch('/logout', { method: 'POST', credentials: 'include' })
-          window.location.reload()
+          try {
+            await fetch('/logout', { method: 'POST', credentials: 'include' })
+          } finally {
+            window.location.reload()
+          }
         })
       }
     }
@@ -263,11 +473,12 @@
         const res = await fetch('/session', { credentials: 'include' })
         if (!res.ok) throw new Error('未登录')
         const data = await res.json()
-        if (!data.ok || !data.user) throw new Error('无用户')
+        if (!data.ok || !data.user) throw new Error('用户信息缺失')
 
         const user = data.user
         userNameEl.textContent = user.username
         userEmailEl.textContent = user.email
+
         const saved = localStorage.getItem(storageKey(user.username))
         const answers = saved ? JSON.parse(saved) : []
 
@@ -277,42 +488,87 @@
         guestSection.style.display = 'none'
         dashboard.classList.add('active')
       } catch (err) {
-        console.info('未登录，展示访客视图。', err)
+        console.info('未登录状态，展示访客视图', err)
         guestSection.style.display = 'block'
         dashboard.classList.remove('active')
       }
     }
 
+    function formatDate(date) {
+      return new Intl.DateTimeFormat('zh-CN', {
+        hour12: false,
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date)
+    }
+
+    function updateNewsStatus({ updatedAt, stale, error }) {
+      const parts = []
+      if (updatedAt) parts.push(`最后更新：${formatDate(updatedAt)}`)
+      parts.push('约每 30 分钟刷新一次')
+      if (stale) parts.push('当前展示缓存数据')
+      if (error) parts.push(`抓取异常：${error}`)
+      newsStatus.textContent = parts.join(' ｜ ')
+    }
+
+    function scheduleNewsRefresh() {
+      window.clearInterval(newsTimer)
+      newsTimer = window.setInterval(loadNews, NEWS_REFRESH_MS)
+    }
+
     async function loadNews() {
       try {
-        const res = await fetch('/news')
+        const res = await fetch('/news', { cache: 'no-store' })
         if (!res.ok) throw new Error(res.statusText || '加载失败')
         const data = await res.json()
         if (!data.ok || !Array.isArray(data.items)) throw new Error('数据格式错误')
 
+        const isStale = res.headers.get('x-news-stale') === '1'
+        const warning = res.headers.get('x-news-error') || ''
+        const generatedAt = data.generatedAt ? new Date(data.generatedAt) : new Date()
+
         newsList.innerHTML = ''
-        data.items.slice(0, 9).forEach(item => {
+        if (!data.items.length) {
           const li = document.createElement('li')
           li.className = 'news-item'
-          li.innerHTML = `
-            <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
-            <div class="news-meta">${new Date(item.published).toLocaleString('zh-CN')} · ${item.source}</div>
-          `
+          li.innerHTML = '<strong>暂未抓取到最新资讯。</strong><div class="news-meta">请稍后再试，或关注官方渠道。</div>'
           newsList.appendChild(li)
-        })
-        if (!data.items.length) {
-          newsList.innerHTML = '<li class="news-item">暂时没有抓取到最新资讯。</li>'
+        } else {
+          data.items.slice(0, 9).forEach(item => {
+            const li = document.createElement('li')
+            li.className = 'news-item'
+            li.innerHTML = `
+              <a href="${item.link}" target="_blank" rel="noopener">${item.title}</a>
+              <div class="news-meta">${new Date(item.published).toLocaleString('zh-CN')} · ${item.source}</div>
+            `
+            newsList.appendChild(li)
+          })
         }
-        newsStatus.textContent = '数据更新频率：约每 30 分钟刷新一次。'
+
+        updateNewsStatus({ updatedAt: generatedAt, stale: isStale, error: warning })
+        scheduleNewsRefresh()
       } catch (err) {
-        newsList.innerHTML = '<li class="news-item">暂时无法获取新闻，请稍后重试。</li>'
-        newsStatus.textContent = String(err)
+        newsList.innerHTML = `
+          <li class="news-item">
+            暂时无法加载资讯，请稍后重试。
+            <div class="news-meta">${String(err)}</div>
+          </li>
+        `
+        updateNewsStatus({ updatedAt: null, stale: false, error: String(err) })
+        scheduleNewsRefresh()
       }
     }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        loadNews()
+      }
+    })
 
     initDashboard()
     loadNews()
   </script>
 </body>
 </html>
-
